@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Issue Book</h2>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Issue</button>
+</form>
+<h3>Issued Books</h3>
+<ul>
+    {% for issue in issues %}
+        <li>
+            {{ issue.book.title }} to {{ issue.member.name }} on {{ issue.issue_date }}
+            <a href="{% url 'return_book' issue.id %}">Return</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

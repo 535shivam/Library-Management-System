@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Members</h2>
+<form method="get">
+    {{ search_form.query.label_tag }}
+    {{ search_form.query }}
+    <button type="submit">Search</button>
+</form>
+
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Member</button>
+</form>
+
+<h3>All Members</h3>
+<ul>
+    {% for member in members %}
+        <li>{{ member.name }} - {{ member.email }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
