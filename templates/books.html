@@ -1,21 +1,43 @@
-{% extends 'base.html' %}
-{% block content %}
-<h2>Books</h2>
-<form method="get">
-    {{ search_form.query.label_tag }}
-    {{ search_form.query }}
-    <button type="submit">Search</button>
-</form>
+<style>
+  h2 {
+    text-align: center;
+    padding: 15px;
+    font-weight: bold;
+  }
+</style>
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-6 mx-auto">
+      <div class="card">
+        <div class="card-body">
+          <h2>Books</h2>
+          <form method="get">
+            {{ search_form.query.label_tag }} {{ search_form.query }}
+            <button type="submit" class="btn btn-info">Search</button>
+          </form><hr>
 
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Book</button>
-</form>
 
-<h3>All Books</h3>
-<ul>
-    {% for book in books %}
-        <li>{{ book.title }} ({{ book.category }}) - {{ book.available_copies }}/{{ book.total_copies }}</li>
-    {% endfor %}
-</ul>
+          <form method="post">
+            {% csrf_token %} {{ form.as_p }}
+            <div class="text-center">
+              <button type="submit" class="btn btn-success">Add Book</button>
+            </div><hr><br>
+          </form>
+
+          <h3 style="padding: 15px;">All Books</h3>
+          <ul>
+            {% for book in books %}
+
+            <li>
+              {{ book.title }} ({{ book.category.name|default:"None" }}) - {{ book.available_copies }}/{{ book.total_copies }}
+
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

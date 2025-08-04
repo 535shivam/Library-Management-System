@@ -1,17 +1,29 @@
-{% extends 'base.html' %}
-{% block content %}
-<h2>Issue Book</h2>
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Issue</button>
-</form>
-<h3>Issued Books</h3>
-<ul>
-    {% for issue in issues %}
-        <li>
-            {{ issue.book.title }} to {{ issue.member.name }} on {{ issue.issue_date }}
-            <a href="{% url 'return_book' issue.id %}">Return</a>
-        </li>
-    {% endfor %}
-</ul>
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 style="text-align: center; padding: 15px;">Issue Book</h2>
+          <form method="post">
+            {% csrf_token %} 
+            <div class="text-center">
+              {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Issue</button>
+            </div>
+          </form><hr>
+          <h3 style="padding: 15px;">Issued Books</h3>
+          <ul>
+            {% for issue in issues %}
+            <li>
+              {{ issue.book.title }} to {{ issue.member.name }} on {{ issue.issue_date|date:"d-m-Y" }}
+              <a href="{% url 'return_book' issue.id %}" class="btn btn-primary">Return</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
