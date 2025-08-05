@@ -5,12 +5,23 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib import messages
+from django.db.models import Count
 # Create your views here.
 
 @login_required
 def home_view(request):
-    return render(request,'home.html')
+    total_books = BookModel.objects.count()
+    total_members = MemberModel.objects.count()
+    total_issued = IssueModel.objects.filter(return_date__isnull=True).count()
+    total_overDue = IssueModel.objects.filter(return_date__isnull=True , due_date__lt = date.today()).count()
+
+    context = {
+        'total_books': total_books,
+        'total_members': total_members,
+        'total_issued': total_issued,
+        'total_overDue': total_overDue
+    }
+    return render(request,'home.html',context)
 
 
 def return_book(request,issue_id):
@@ -87,9 +98,10 @@ def issue_book(request):
     issues = IssueModel.objects.filter(return_date__isnull=True)
     form = IssueForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
-        issue = form.save()
-        issue.book.available_copies -= 1
-        issue.book.save()
+        issue = form.save(commit=False)
+        issue.issue_date = date.today()
+        issue.due_date = issue.issue_date + timedelta(days=14)
+        issue.save()
         return redirect('issue_book')
     return render(request, 'issue_book.html', {'form': form, 'issues': issues})
 

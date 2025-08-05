@@ -1,4 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Welcome to the Library</h2>
+<h2 class="mb-4 text-center">📊 Dashboard Overview</h2><br><br>
+
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="card border-primary shadow">
+            <div class="card-body">
+                <h5 class="card-title text-primary">📚 Total Books</h5>
+                <h3>{{ total_books }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card border-success shadow">
+            <div class="card-body">
+                <h5 class="card-title text-success">👥 Members</h5>
+                <h3>{{ total_members }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card border-warning shadow">
+            <div class="card-body">
+                <h5 class="card-title text-warning">📖 Issued Books</h5>
+                <h3>{{ total_issued }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card border-danger shadow">
+            <div class="card-body">
+                <h5 class="card-title text-danger">⚠️ Overdue</h5>
+                <h3>{{ total_overdue }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
